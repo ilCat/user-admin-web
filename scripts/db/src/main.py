@@ -1,8 +1,6 @@
 # coding=utf-8
-from flask_cors import CORS
-from flask import Flask, jsonify, request
-from queries.queries import Session, engine, Base
-from queries.tables import User_table, Access_table, Groups_table
+# from queries.queries import Session, engine, Base
+from queries.tables import User_table, Access_table, Groups_table, Session, engine, Base
 
 # if needed, generate database schema
 Base.metadata.create_all(engine)
@@ -16,11 +14,10 @@ access = session.query(Access_table).all()
 grops = session.query(Groups_table).all()
 
 if len(users) == 0:
-    first_user = User_table("Alexis",True, 'CatCat22') 
+    first_user = User_table("Alexis", True, 'CatCat22')
     session.add(first_user)
     session.commit()
     session.close()
-
 
 
 accessRoles = ["Read", "Write", "Administrator", "Owner"]
@@ -31,9 +28,20 @@ for rol in accessRoles:
     session.commit()
 session.close()
 
+securityGroups  = ["Operator", "TeamLeader", "Mechanic", "Electric","ProjectLeader","Mannager"]
+
+for group in securityGroups:
+    group_i = Access_table(group)
+    session.add(group_i)
+    session.commit()
+session.close()
+
+
 
 users = session.query(User_table).all()
 print("users : ")
 for user in users:
-    print(f'({user.id}) {user.name} - Estado:{user.active_state} - DT: {user.created_at}')
+    print(
+        f'({user.id}) {user.name} - Estado:{user.active_state} - DT: {user.created_at}')
+
 
