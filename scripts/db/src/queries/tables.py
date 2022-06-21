@@ -15,47 +15,32 @@ Session = sessionmaker(bind=engine)
 
 Base = declarative_base()
 
+# asociation_table = Table('asociation_table',
+#                          Base.metadata,
+#                          Column('user_id', Integer, ForeignKey(
+#                              'users.id'), primary_key=True),
+#                          Column('group_id', Integer, ForeignKey(
+#                              'groups.id'), primary_key=True),
+#                          Column('access_id', Integer, ForeignKey(
+#                             'access.id'), primary_key=True)
+#                          )
 asociation_table = Table('asociation_table',
                          Base.metadata,
                          Column('user_id', Integer, ForeignKey(
-                             'users.id'), primary_key=True),
+                             'users.id')),
                          Column('group_id', Integer, ForeignKey(
-                             'groups.id'), primary_key=True),
-                         Column('access_id', Integer, ForeignKey(
-                             'access.id'), primary_key=True)
+                             'groups.id'))
                          )
-
-
-class User_table(Base):
-    __tablename__ = "users"
-
-    id = Column(Integer, primary_key=True)
-    name = Column(String)
-    password = Column(String)
-    active_state = Column(Boolean)
-    created_at = Column(DateTime)
-    # groupsUser = relationship('Groups_table',secondary=asociation_table, back_populates='usersGroup')
-    # accessUser = relationship('Access_table',secondary=asociation_table, back_populates='usersAccess')
-
-    def __init__(self, name, active_state, password):
-        # Entity.__init__(self)
-        self.name = name
-        self.active_state = active_state
-        self.password = password
-        self.created_at = datetime.now()
-
 
 class Access_table(Base):
     __tablename__ = 'access'
 
     id = Column(Integer, primary_key=True)
     name = Column(String)
-    usersAccess = relationship('User_table', secondary=asociation_table)
+    securityGroup = relationship('Groups_table', back_populates='accessLevel')
 
     def __init__(self, name):
-        # Entity.__init__(self)
         self.name = name
-
 
 class Groups_table(Base):
     __tablename__ = 'groups'
@@ -63,10 +48,59 @@ class Groups_table(Base):
     id = Column(Integer, primary_key=True)
     name = Column(String)
     description = Column(String)
-    usersGroup = relationship('User_table', secondary=asociation_table)
+    access_id = Column(Integer, ForeignKey('access.id'))
+    accessLevel = relationship('Access_table', back_populates='securityGroup')
+    members = relationship('User_table',secondary=asociation_table , back_populates='group')
 
-    def __init__(self, name, description):
-        # Entity.__init__(self)
+    def __init__(self, name, description, access_id):
         self.name = name
         self.description = description
+        self.access_id = access_id
+
+class User_table(Base):
+    __tablename__ = "users"
+
+    id = Column(Integer, primary_key=True)
+    name = Column(String, unique=True)
+    password = Column(String)
+    active_state = Column(Boolean)
+    created_at = Column(DateTime)
+    # group_id = Column(Integer, ForeignKey('groups.id'))
+    group = relationship('Groups_table',secondary=asociation_table, back_populates='members')
+    # groupsUser = relationship('Groups_table', backref='usersGroup')
+    # accessUser = relationship('Access_table',secondary=asociation_table, back_populates='usersAccess')
+
+    def __init__(self, name, active_state, password):
+        self.name = name
+        self.active_state = active_state
+        self.password = password
+        self.created_at = datetime.now()
+
+
+# class Access_table(Base):
+#     __tablename__ = 'access'
+
+#     id = Column(Integer, primary_key=True)
+#     name = Column(String)
+
+#     usersAccess = relationship('User_table', secondary=asociation_table)
+
+#     def __init__(self, name):
+#         # Entity.__init__(self)
+#         self.name = name
+
+
+# class Groups_table(Base):
+#     __tablename__ = 'groups'
+
+#     id = Column(Integer, primary_key=True)
+#     name = Column(String)
+#     description = Column(String)
+#     user_id = Column(Integer, ForeignKey('users.id')),
+#     usersGroup = relationship('User_table', secondary=asociation_table)
+
+#     def __init__(self, name, description):
+#         # Entity.__init__(self)
+#         self.name = name
+#         self.description = description
 

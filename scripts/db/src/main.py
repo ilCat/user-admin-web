@@ -28,12 +28,26 @@ for rol in accessRoles:
     session.commit()
 session.close()
 
-securityGroups  = ["Operator", "TeamLeader", "Mechanic", "Electric","ProjectLeader","Mannager"]
+securityGroups  = {"Operator": ["Employee with basic information level",1], 
+    "TeamLeader": ["Leader of a operators group",3], 
+    "Mechanic": ["Technician with middle infomation level",2], 
+    "Electric": ["Technician with middle infomation level",2],
+    "ProjectLeader": ["Leader of project with high information level",3],
+    "Mannager": ["Leader with the highest information level",4]}
 
-for group in securityGroups:
-    group_i = Access_table(group)
+for title, description in securityGroups.items():
+    group_i = Groups_table(title, description[0],description[1])
     session.add(group_i)
     session.commit()
+session.close()
+
+addGroup = session.query(User_table)[0]
+group4 = session.query(Groups_table)[3]
+group2 = session.query(Groups_table)[1]
+addGroup.group.append(group4)
+session.commit()
+addGroup.group.append(group2)
+session.commit()
 session.close()
 
 
@@ -42,6 +56,11 @@ users = session.query(User_table).all()
 print("users : ")
 for user in users:
     print(
-        f'({user.id}) {user.name} - Estado:{user.active_state} - DT: {user.created_at}')
+        f'({user.id}) {user.name} - Estado activo:{user.active_state} - DT: {user.created_at} - Nose : {user.group }')
+
+
+asking = session.query(Groups_table).join(Groups_table.accessLevel).join(Groups_table.members).filter(User_table.name == 'Alexis')
+print("user : ", asking.all())
+
 
 
