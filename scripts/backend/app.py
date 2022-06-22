@@ -1,10 +1,11 @@
 # coding=utf-8
 from flask import Flask, jsonify, request
-from db.queries.tables import (User_table, UserSchema, Access_table,
+from .db.queries.tables import (User_table, UserSchema, Access_table,
                                AccessSchema,  Groups_table, GroupSchema, Session, engine, Base,)
-
+from flask_cors import CORS
 
 app = Flask(__name__)
+CORS(app)
 
 # if needed, generate database schema
 Base.metadata.create_all(engine)

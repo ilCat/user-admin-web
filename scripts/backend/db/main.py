@@ -1,5 +1,6 @@
 # coding=utf-8
-from queries.tables import User_table, Access_table, Groups_table, Session, engine, Base
+from .queries.tables import (
+    User_table, Access_table, Groups_table, Session, engine, Base)
 
 # if needed, generate database schema
 Base.metadata.create_all(engine)
@@ -27,15 +28,15 @@ for rol in accessRoles:
     session.commit()
 session.close()
 
-securityGroups  = {"Operator": ["Employee with basic information level",1], 
-    "TeamLeader": ["Leader of a operators group",3], 
-    "Mechanic": ["Technician with middle infomation level",2], 
-    "Electric": ["Technician with middle infomation level",2],
-    "ProjectLeader": ["Leader of project with high information level",3],
-    "Mannager": ["Leader with the highest information level",4]}
+securityGroups = {"Operator": ["Employee with basic information level", 1],
+                  "TeamLeader": ["Leader of a operators group", 3],
+                  "Mechanic": ["Technician with middle infomation level", 2],
+                  "Electric": ["Technician with middle infomation level", 2],
+                  "ProjectLeader": ["Leader of project with high information level", 3],
+                  "Mannager": ["Leader with the highest information level", 4]}
 
 for title, description in securityGroups.items():
-    group_i = Groups_table(title, description[0],description[1])
+    group_i = Groups_table(title, description[0], description[1])
     session.add(group_i)
     session.commit()
 session.close()
@@ -50,7 +51,6 @@ session.commit()
 session.close()
 
 
-
 users = session.query(User_table).all()
 print("users : ")
 for user in users:
@@ -58,8 +58,6 @@ for user in users:
         f'({user.id}) {user.name} - Estado activo:{user.active_state} - DT: {user.created_at} - Nose : {user.group }')
 
 
-asking = session.query(Groups_table).join(Groups_table.accessLevel).join(Groups_table.members).filter(User_table.name == 'Alexis')
+asking = session.query(Groups_table).join(Groups_table.accessLevel).join(
+    Groups_table.members).filter(User_table.name == 'Alexis')
 print("user : ", asking.all())
-
-
-
