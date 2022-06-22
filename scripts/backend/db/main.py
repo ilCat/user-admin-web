@@ -1,5 +1,4 @@
 # coding=utf-8
-# from queries.queries import Session, engine, Base
 from queries.tables import User_table, Access_table, Groups_table, Session, engine, Base
 
 # if needed, generate database schema
