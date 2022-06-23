@@ -46,9 +46,17 @@ def getUserInformation(user_name):
     schema = UserSchema(many=True)
     user= schema.dump(user_object)
 
+    user_object = session.query(Groups_table).join(
+        Groups_table.members).filter(User_table.name == user_name)
+
+    # transforming into JSON-serializable objects
+    schema = UserSchema(many=True)
+    user2 = schema.dump(user_object)
+
     # serializing as JSON
     session.close()
-    return render_template("userInformation.html", user=user[0]) # jsonify(user_sch)
+
+    return render_template("userInformation.html", user=[user[0],user2]) # jsonify(user_sch)
 
 
 # Add new user
@@ -76,7 +84,7 @@ def add_user():
         # return created user
         new_user = UserSchema().dump(user)
         session.close()
-        return redirect('/')  # jsonify(new_user), 201
+        return redirect('/users')  # jsonify(new_user), 201
 
 
 # Add user to a group
@@ -116,7 +124,7 @@ def add_user_group():
         user_to_group = {"user": user_objet.name,
                         "group": group_objet.name}
         session.close()
-        return jsonify(user_to_group), 202
+        return redirect("/users") # jsonify(user_to_group), 202
 
 
 # Get groups of a User
