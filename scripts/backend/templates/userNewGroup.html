@@ -1,0 +1,45 @@
+{% extends 'master.html' %}
+{% include 'header.html' %}
+
+{% block title %} Agregar Usuario {% endblock %}
+
+{% block body %}
+
+<div class="container">
+	<form method="post" action="">
+		<table class="table">
+			<tr>
+                <td>
+                <label for="exampleDataList" class="form-label">User Name</label>
+                <input class="form-control"  name="name_user" list="UsersOptions" id="UserDataList" placeholder="Type to search...">
+                <datalist id="UsersOptions">
+                    {% for user in data[0] %}
+                    <option value="{{user['name']}}">{{user['name']}}</option>
+                    {% endfor %}
+                </datalist>
+                </td> 
+                  
+			</tr>
+
+			<tr>
+                <td></td>
+                <label for="exampleDataList" class="form-label">Security Group to add</label>
+                <input class="form-control"  name="name_group" list="GroupsOptions" id="GroupDataList" placeholder="Type to search...">
+                <datalist id="GroupsOptions">
+                    {% for group in data[1] %}
+                       <option value="{{group['name']}}">{{group['name']}}</option>
+                    {% endfor %}
+                </datalist>
+            </td>
+			</tr>
+
+			<tr>
+				<td colspan="2">
+					<input type="submit" name="submit" value="Assign user to group" class="btn btn-success">
+				</td>
+			</tr> 
+		</table>
+	</form>
+</div>
+
+{% endblock %}

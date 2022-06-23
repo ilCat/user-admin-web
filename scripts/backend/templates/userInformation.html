@@ -1,0 +1,44 @@
+
+{% extends 'master.html' %}
+{% include 'header.html' %}
+
+{% block title %} Informacion de usuario {% endblock %}
+
+{% block body %}
+<div class="container"></div>
+
+		<div class="col-md-12 text-center"><h1>User Information</h1>
+
+  
+
+  <table class="table table-responsive table-hover table-striped table-bordered" id="example">
+		<!-- <caption>List of users</caption> -->
+		<tbody>
+			<tr>
+				<td><strong>User Name or Alias : </strong></td>
+				<td>{{user["name"]}}</td>
+			</tr>
+      <tr>
+				<td><strong>User ID:</strong></td>
+				<td>{{user["id"]}}</td>
+			</tr>
+      <tr>
+				<td><strong>User Password:</strong></td>
+				<td>{{user["password"]}}</td>
+			</tr>
+      <tr>
+				<td><strong>Creation Date: </strong></td>
+				<td>{{user["created_at"]}}</td>
+			</tr>
+      <tr>
+				<td><strong>User state activated </strong></td>
+				<td>{{user["active_state"]}}</td>
+			</tr>
+
+		</div>
+		</tbody>
+	</table>
+</div>
+</div>
+
+{% endblock %}

@@ -1,25 +1,36 @@
 {% extends 'master.html' %}
 {% include 'header.html' %}
 
-{% block title %} Agregar Usuario{% endblock %}
+{% block title %}Users List{% endblock %}
 
 {% block body %}
 
 <div class="container">
 	<div>
-		<div class="col-md-12 text-center"><h1>Lista de usuarios</h1></div>
+		<div class="col-md-12 text-center"><h1>List of users</h1></div>
 	</div>
 
 	<table class="table table-hover table-striped table-bordered" id="example">
-		<thead style="background-color: rgb(161, 178, 235); color: black;">
+		<!-- <caption>List of users</caption> -->
+		<thead style="background-color: rgb(167, 202, 223); color: black;">
 			<th>Alias</th>
 		</thead>
 		<tbody>
-			{% for name in nameList.values() %}
+			
+			<!-- <li class="list-group-item active" aria-current="true">An active item</li> -->
+			{% for value in nameList.values() %}
 			<tr>
-				<td>{{ name }}</td>
+				
+				<td>
+					<a class="list-group-item list-group-item-action" href="/users/{{value}}" >{{ value }}</a>
+				</td>
+
+				<!-- <td><a class="btn btn-primary" href="/{{ name }}" role="button">{{ name }}</a></td> -->
+				<!-- <td>{{ name }}</td> -->
+				
 			</tr>
 			{% endfor %}
+		</div>
 		</tbody>
 	</table>
 </div>

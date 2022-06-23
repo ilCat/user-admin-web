@@ -1,6 +1,5 @@
 # coding=utf-8
-from os import name
-from flask import Flask, jsonify, request, render_template, redirect
+from flask import Flask, jsonify, request, render_template, redirect, session
 from db.queries.tables import (User_table, UserSchema, Access_table,
                                AccessSchema,  Groups_table, GroupSchema, Session, engine, Base,)
 from flask_cors import CORS
@@ -11,9 +10,12 @@ CORS(app)
 # if needed, generate database schema
 Base.metadata.create_all(engine)
 
+
 @app.route('/')
 def home():
-	return render_template('index.html')
+    return render_template('index.html')
+
+
 
 # Get list of users
 @app.route('/users')
@@ -42,11 +44,11 @@ def getUserInformation(user_name):
 
     # transforming into JSON-serializable objects
     schema = UserSchema(many=True)
-    user = schema.dump(user_object)
+    user= schema.dump(user_object)
 
     # serializing as JSON
     session.close()
-    return jsonify(user)
+    return render_template("userInformation.html", user=user[0]) # jsonify(user_sch)
 
 
 # Add new user
@@ -55,9 +57,15 @@ def add_user():
     if request.method == 'GET':
         return render_template('addUser.html')
 
-    if request.method == 'post':
-        # mount user object
-        posted_user = UserSchema(only=('name', 'password', 'active_state')).load(request.get_json())
+    if request.method == 'POST':
+
+        # posted_user = UserSchema(only=('name', 'password', 'active_state')).load(request.get_json())
+        req = {'name': request.form['name'],
+               'password': request.form['password'],
+               'active_state': request.form['active_state']}
+
+        posted_user = UserSchema(
+            only=('name', 'password', 'active_state')).load(req)
 
         user = User_table(**posted_user)
 
@@ -68,31 +76,47 @@ def add_user():
         # return created user
         new_user = UserSchema().dump(user)
         session.close()
-        return jsonify(new_user), 201
+        return redirect('/')  # jsonify(new_user), 201
 
 
 # Add user to a group
-@app.route('/groups', methods=['POST'])
+@app.route('/groups', methods=['GET','POST'])
 def add_user_group():
-    # mount user object
-    posted = {'name_user': request.json['name_user'],
-              'name_group': request.json['name_group']
-              }
-    session = Session()
-    user_objet = session.query(User_table).filter(
-        User_table.name == posted['name_user'])[0]
 
-    group_objet = session.query(Groups_table).filter(
-        Groups_table.name == posted['name_group'])[0]
+    if request.method =='GET':
+        session = Session()
+        # groupsList = session.execute("select name from groups")
+        groups = session.query(Groups_table).all()
+        schema = GroupSchema(many=True)
+        groupsList = schema.dump(groups)
+        users = session.query(User_table).all()
+        schemaU = UserSchema(many=True)
+        usersList = schemaU.dump(users)
+        data = [usersList, groupsList]
 
-    user_objet.group.append(group_objet)
-    session.commit()
+        return render_template('userNewGroup.html',data=data)
 
-    # return created user
-    user_to_group = {"user": user_objet.name,
-                     "group": group_objet.name}
-    session.close()
-    return jsonify(user_to_group), 202
+
+    if request.method == 'POST':
+            
+        posted = {'name_user': request.form['name_user'],
+                'name_group': request.form['name_group']
+                }
+        session = Session()
+        user_objet = session.query(User_table).filter(
+            User_table.name == posted['name_user'])[0]
+
+        group_objet = session.query(Groups_table).filter(
+            Groups_table.name == posted['name_group'])[0]
+
+        user_objet.group.append(group_objet)
+        session.commit()
+
+        # return created user
+        user_to_group = {"user": user_objet.name,
+                        "group": group_objet.name}
+        session.close()
+        return jsonify(user_to_group), 202
 
 
 # Get groups of a User
