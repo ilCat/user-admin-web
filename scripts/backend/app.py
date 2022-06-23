@@ -1,6 +1,7 @@
 # coding=utf-8
-from flask import Flask, jsonify, request
-from .db.queries.tables import (User_table, UserSchema, Access_table,
+from os import name
+from flask import Flask, jsonify, request, render_template, redirect
+from db.queries.tables import (User_table, UserSchema, Access_table,
                                AccessSchema,  Groups_table, GroupSchema, Session, engine, Base,)
 from flask_cors import CORS
 
@@ -10,6 +11,9 @@ CORS(app)
 # if needed, generate database schema
 Base.metadata.create_all(engine)
 
+@app.route('/')
+def home():
+	return render_template('index.html')
 
 # Get list of users
 @app.route('/users')
@@ -26,7 +30,7 @@ def getUsers():
     nameList = {}
     for i in users:
         nameList[i['id']] = i['name']
-    return jsonify(nameList)
+    return render_template("userList.html", nameList=nameList)
 
 
 # Get desolate user information
@@ -46,22 +50,25 @@ def getUserInformation(user_name):
 
 
 # Add new user
-@app.route('/user', methods=['POST'])
+@app.route('/user', methods=['GET', 'POST'])
 def add_user():
-    # mount user object
-    posted_user = UserSchema(only=('name', 'password', 'active_state'))\
-        .load(request.get_json())
+    if request.method == 'GET':
+        return render_template('addUser.html')
 
-    user = User_table(**posted_user)
+    if request.method == 'post':
+        # mount user object
+        posted_user = UserSchema(only=('name', 'password', 'active_state')).load(request.get_json())
 
-    session = Session()
-    session.add(user)
-    session.commit()
+        user = User_table(**posted_user)
 
-    # return created user
-    new_user = UserSchema().dump(user)
-    session.close()
-    return jsonify(new_user), 201
+        session = Session()
+        session.add(user)
+        session.commit()
+
+        # return created user
+        new_user = UserSchema().dump(user)
+        session.close()
+        return jsonify(new_user), 201
 
 
 # Add user to a group

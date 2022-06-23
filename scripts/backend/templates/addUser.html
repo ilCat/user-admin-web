@@ -1,0 +1,38 @@
+{% extends 'master.html' %}
+{% include 'header.html' %}
+
+{% block title %} Agregar Usuario {% endblock %}
+
+{% block body %}
+
+<div class="container">
+	<form method="post" action="">
+		<table class="table">
+			<tr>
+				<td>Name</td>
+				<td><input type="text" name="nombre" class="form-control"></td>
+			</tr>
+
+			<tr>
+				<td>Password</td>
+				<td><input type="password" name="apellidos" class="form-control"></td>
+			</tr>
+
+			<tr>
+				<td>state</td>
+				<td>
+					Active:<input type="radio" name="active_state" value="TRUE">
+					Inactive:<input type="radio" name="active_state" value="FALSE">
+				</td>
+			</tr>
+
+			<tr>
+				<td colspan="2">
+					<input type="submit" name="submit" value="Agregar usuario" class="btn btn-success">
+				</td>
+			</tr>
+		</table>
+	</form>
+</div>
+
+{% endblock %}

@@ -1,0 +1,27 @@
+{% extends 'master.html' %}
+{% include 'header.html' %}
+
+{% block title %} Agregar Usuario{% endblock %}
+
+{% block body %}
+
+<div class="container">
+	<div>
+		<div class="col-md-12 text-center"><h1>Lista de usuarios</h1></div>
+	</div>
+
+	<table class="table table-hover table-striped table-bordered" id="example">
+		<thead style="background-color: rgb(161, 178, 235); color: black;">
+			<th>Alias</th>
+		</thead>
+		<tbody>
+			{% for name in nameList.values() %}
+			<tr>
+				<td>{{ name }}</td>
+			</tr>
+			{% endfor %}
+		</tbody>
+	</table>
+</div>
+
+{% endblock %}
