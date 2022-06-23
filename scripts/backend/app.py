@@ -50,8 +50,8 @@ def getUserInformation(user_name):
         Groups_table.members).filter(User_table.name == user_name)
 
     # transforming into JSON-serializable objects
-    schema = UserSchema(many=True)
-    user2 = schema.dump(user_object)
+    schema2 = UserSchema(many=True)
+    user2 = schema2.dump(user_object)
 
     # serializing as JSON
     session.close()
