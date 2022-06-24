@@ -14,7 +14,7 @@ db_password = 'admin'
 # engine = create_engine(
 #     f'postgresql://{db_user}:{db_password}@{db_url}/{db_name}')
 engine = create_engine(
-    'postgres://pjfgdlvudnmmdw:cd5f063c62668a2bd8d6099d04ad021c308aaf1f3c9a29125be9a43010233ce4@ec2-34-200-35-222.compute-1.amazonaws.com:5432/d1fcp3k1egdjsf')
+    'postgresql://pjfgdlvudnmmdw:cd5f063c62668a2bd8d6099d04ad021c308aaf1f3c9a29125be9a43010233ce4@ec2-34-200-35-222.compute-1.amazonaws.com:5432/d1fcp3k1egdjsf')
 Session = sessionmaker(bind=engine)
 
 Base = declarative_base()
