@@ -30,7 +30,7 @@ asociation_table = Table('asociation_table',
 
 
 class Access_table(Base):
-    __tablename__ = 'access'
+    __tablename__ = 'accesso'
 
     id = Column(Integer, primary_key=True)
     name = Column(String)
@@ -46,7 +46,7 @@ class Groups_table(Base):
     id = Column(Integer, primary_key=True)
     name = Column(String)
     description = Column(String)
-    access_id = Column(Integer, ForeignKey('access.id'))
+    acces_id = Column(Integer, ForeignKey('accesso.id'))
     accessLevel = relationship('Access_table', back_populates='securityGroup')
     members = relationship(
         'User_table', secondary=asociation_table, back_populates='group')
