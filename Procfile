@@ -1,1 +1,1 @@
-web: gunicorn --pythonpath scripts backend.app
+web: gunicorn --pythonpath scripts backend app:app
