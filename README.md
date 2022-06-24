@@ -1,12 +1,28 @@
 # user-admin-web
+Web service of users, roles and groups.
 
-to build and run DB local
+# Contents
 
-$ sudo -i -u postgres
+- db : database creation and query using python, SQLAlchemy and postgreSQL
 
-$ psql
+- backend :  app.py using python Flask
 
-to build and run DB  in docker
+- front end :  templates html usin bootstrap
 
-$ sudo docker run --name db-test -p 8000:8000 -e POSTGRES_DB=db-test -e POSTGRES_PASSWORD=admin -d postgres
+# Requirements
 
+- postgresql
+
+- requeriment.txt
+
+# Deploy local
+
+Create database:  db_name = 'testdb'
+                  db_user = 'postgres'
+                  db_password = 'admin'
+ 
+ Run scripts/db/main.py file to fill some data in the database. 
+ 
+ Run booststrap.sh file
+ 
+ 
