@@ -1,5 +1,5 @@
 # coding=utf-8
-from .queries.tables import (
+from queries.tables import (
     User_table, Access_table, Groups_table, Session, engine, Base)
 
 # if needed, generate database schema

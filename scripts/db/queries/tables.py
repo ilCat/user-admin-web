@@ -46,7 +46,7 @@ class Groups_table(Base):
     id = Column(Integer, primary_key=True)
     name = Column(String)
     description = Column(String)
-    acces_id = Column(Integer, ForeignKey('access.id'))
+    access_id = Column(Integer, ForeignKey('access.id'))
     accessLevel = relationship('Access_table', back_populates='securityGroup')
     members = relationship(
         'User_table', secondary=asociation_table, back_populates='group')
