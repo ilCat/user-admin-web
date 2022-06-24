@@ -17,6 +17,8 @@ Web service of users, roles and groups.
 
 # Deploy local
 
+To deploy local use locDeploy branch
+
 Create database:  db_name = 'testdb'
                   db_user = 'postgres'
                   db_password = 'admin'
