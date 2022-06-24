@@ -1,8 +1,4 @@
 # coding=utf-8
-# import sys
-
-# # to import the library biolab_functions
-# sys.path.insert(0, '/..')
 import os
 import sys
 script_dir = os.path.dirname( __file__ )
