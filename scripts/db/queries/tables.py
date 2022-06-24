@@ -11,10 +11,10 @@ db_url = 'localhost:5432'
 db_name = 'testdb'
 db_user = 'postgres'
 db_password = 'admin'
-# engine = create_engine(
-#     f'postgresql://{db_user}:{db_password}@{db_url}/{db_name}')
 engine = create_engine(
-    'postgresql://pjfgdlvudnmmdw:cd5f063c62668a2bd8d6099d04ad021c308aaf1f3c9a29125be9a43010233ce4@ec2-34-200-35-222.compute-1.amazonaws.com:5432/d1fcp3k1egdjsf')
+    f'postgresql://{db_user}:{db_password}@{db_url}/{db_name}')
+# engine = create_engine(
+#     'postgresql://pjfgdlvudnmmdw:cd5f063c62668a2bd8d6099d04ad021c308aaf1f3c9a29125be9a43010233ce4@ec2-34-200-35-222.compute-1.amazonaws.com:5432/d1fcp3k1egdjsf')
 Session = sessionmaker(bind=engine)
 
 Base = declarative_base()
@@ -30,7 +30,7 @@ asociation_table = Table('asociation_table',
 
 
 class Access_table(Base):
-    __tablename__ = 'accesso'
+    __tablename__ = 'access'
 
     id = Column(Integer, primary_key=True)
     name = Column(String)
@@ -46,7 +46,7 @@ class Groups_table(Base):
     id = Column(Integer, primary_key=True)
     name = Column(String)
     description = Column(String)
-    acces_id = Column(Integer, ForeignKey('accesso.id'))
+    acces_id = Column(Integer, ForeignKey('access.id'))
     accessLevel = relationship('Access_table', back_populates='securityGroup')
     members = relationship(
         'User_table', secondary=asociation_table, back_populates='group')
