@@ -1,10 +1,19 @@
 # coding=utf-8
+# import sys
+
+# # to import the library biolab_functions
+# sys.path.insert(0, '/..')
+import os
+import sys
+script_dir = os.path.dirname( __file__ )
+sys.path.append(os.path.join(script_dir,'..'))
+
 from flask import Flask, jsonify, request, render_template, redirect, session
 from db.queries.tables import (User_table, UserSchema, Access_table,
                                AccessSchema,  Groups_table, GroupSchema, Session, engine, Base,)
 from flask_cors import CORS
 
-app = Flask(__name__)
+app = Flask(__name__, template_folder='../frontend/templates')
 CORS(app)
 
 # if needed, generate database schema
