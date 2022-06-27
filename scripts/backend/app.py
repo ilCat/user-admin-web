@@ -8,6 +8,7 @@ from flask import Flask, jsonify, request, render_template, redirect, session
 from db.queries.tables import (User_table, UserSchema, Access_table,
                                AccessSchema,  Groups_table, GroupSchema, Session, engine, Base,)
 from flask_cors import CORS
+from werkzeug.security import check_password_hash, generate_password_hash
 
 app = Flask(__name__, template_folder='../frontend/templates')
 CORS(app)
@@ -76,6 +77,9 @@ def add_user():
         req = {'name': request.form['name'],
                'password': request.form['password'],
                'active_state': request.form['active_state']}
+
+        # generate passwor hash to store the hash and not the pass    
+        req['password'] =  generate_password_hash(req['password'])
 
         posted_user = UserSchema(
             only=('name', 'password', 'active_state')).load(req)
