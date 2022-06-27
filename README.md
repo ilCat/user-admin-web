@@ -4,7 +4,7 @@ Web service of users, roles and groups.
 
 Link: https://user-admin-web.herokuapp.com/
 
-The main idea of this project is to debelop a web aplication able to managing users and security groups whit their access levels with the next structure:
+The main idea of this project is to debelop a web aplication able to managing users and security groups with their access levels with the next structure:
 
 User tags: 
 * Name or Alias (unique)
