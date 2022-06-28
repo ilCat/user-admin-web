@@ -3,7 +3,7 @@ from sqlalchemy import (create_engine, Column, String,
                         Integer, DateTime, Boolean, ForeignKey, Table)
 from sqlalchemy.orm import relationship, sessionmaker
 from sqlalchemy.ext.declarative import declarative_base
-from datetime import datetime
+from datetime import datetime, timedelta
 from marshmallow import Schema, fields
 import pytz
 
@@ -74,7 +74,7 @@ class User_table(Base):
         self.name = name
         self.active_state = active_state
         self.password = password
-        self.created_at = datetime.now()
+        self.created_at = datetime.now()- timedelta(hours=1)
 
 
 class AccessSchema(Schema):
