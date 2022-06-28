@@ -4,11 +4,24 @@
 {% block title %} home {% endblock %}
 
 {% block body %}
+<style type="text/css">
+	.row-centered {
+		text-align:center;
+	}
+	.col-centered {
+		display:inline-block;
+		float:none;
+		text-align:left;
+		margin-right:-4px;
+	}
+	.pos{
+		position: relative;
+		top: 240px;
+	}
+</style>
 
 <div class="container">
-	<div>
-		<div class="col-md-12 text-center"><h1>Welcome Home</h1></div>
-	</div>
+		<div class="col-md-12 text-center row-centered pos"><h1>Welcome Home</h1></div>
 </div>
 
 {% endblock %}
