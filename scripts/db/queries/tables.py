@@ -8,6 +8,7 @@ from marshmallow import Schema, fields
 import pytz
 
 
+
 db_url = 'localhost:5432'
 db_name = 'testdb'
 db_user = 'postgres'
