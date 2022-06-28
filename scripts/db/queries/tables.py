@@ -74,7 +74,7 @@ class User_table(Base):
         self.name = name
         self.active_state = active_state
         self.password = password
-        self.created_at = datetime.now()- timedelta(hours=1)
+        self.created_at = datetime.now()- timedelta(hours=3)
 
 
 class AccessSchema(Schema):
