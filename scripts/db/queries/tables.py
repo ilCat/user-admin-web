@@ -64,7 +64,7 @@ class User_table(Base):
     name = Column(String, unique=True)
     password = Column(String)
     active_state = Column(Boolean)
-    created_at = Column(DateTime)
+    created_at = Column(DateTime(timezone=True)) # %Y-%m-%dT%H:%M:%S
     group = relationship(
         'Groups_table', secondary=asociation_table, back_populates='members')
 
