@@ -5,7 +5,7 @@ from sqlalchemy.orm import relationship, sessionmaker
 from sqlalchemy.ext.declarative import declarative_base
 from datetime import datetime
 from marshmallow import Schema, fields
-import pytz
+
 
 
 db_url = 'localhost:5432'
@@ -73,7 +73,7 @@ class User_table(Base):
         self.name = name
         self.active_state = active_state
         self.password = password
-        self.created_at = datetime.now(pytz.timezone('America/Argentina/San_Luis'))
+        self.created_at = datetime.now()
 
 
 class AccessSchema(Schema):
