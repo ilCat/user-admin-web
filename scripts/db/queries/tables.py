@@ -74,7 +74,7 @@ class User_table(Base):
         self.name = name
         self.active_state = active_state
         self.password = password
-        self.created_at = datetime.now(pytz.timezone('America/Argentina'))
+        self.created_at = datetime.now()
 
 
 class AccessSchema(Schema):
