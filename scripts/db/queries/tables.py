@@ -5,6 +5,7 @@ from sqlalchemy.orm import relationship, sessionmaker
 from sqlalchemy.ext.declarative import declarative_base
 from datetime import datetime
 from marshmallow import Schema, fields
+import pytz
 
 
 db_url = 'localhost:5432'
@@ -64,7 +65,7 @@ class User_table(Base):
     name = Column(String, unique=True)
     password = Column(String)
     active_state = Column(Boolean)
-    created_at = Column(DateTime)
+    created_at = Column(DateTime(timezone=True))
     group = relationship(
         'Groups_table', secondary=asociation_table, back_populates='members')
 
@@ -72,23 +73,23 @@ class User_table(Base):
         self.name = name
         self.active_state = active_state
         self.password = password
-        self.created_at = datetime.now()
+        self.created_at = datetime.now(pytz.timezone('America/Argentina/San_Luis'))
 
 
 class AccessSchema(Schema):
-    id = fields.Number()
+    id = fields.Integer()
     name = fields.Str()
 
 
 class GroupSchema(Schema):
-    id = fields.Number()
+    id = fields.Integer()
     name = fields.Str()
     description = fields.Str()
-    access_id = fields.Number()
+    access_id = fields.Integer()
 
 
 class UserSchema(Schema):
-    id = fields.Number()
+    id = fields.Integer()
     name = fields.Str()
     password = fields.Str()
     active_state = fields.Bool()
