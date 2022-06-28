@@ -9,6 +9,7 @@ from scripts.db.queries.tables import (User_table, UserSchema, Access_table,
                                AccessSchema,  Groups_table, GroupSchema, Session, engine, Base,)
 from flask_cors import CORS
 from werkzeug.security import check_password_hash, generate_password_hash
+from datetime import datetime
 
 app = Flask(__name__, template_folder='scripts/frontend/templates')
 CORS(app)
@@ -51,7 +52,11 @@ def getUserInformation(user_name):
     # transforming into JSON-serializable objects
     schema = UserSchema(many=True)
     user= schema.dump(user_object)
+    # to show the date in a friendly way
+    date = datetime.strptime(user[0]["created_at"], '%Y-%m-%dT%H:%M:%S.%f')
+    user[0]["created_at"] = date.strftime("%c")
 
+    # the same to get the user group 
     user_object = session.query(Groups_table).join(
         Groups_table.members).filter(User_table.name == user_name)
 
