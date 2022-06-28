@@ -76,19 +76,19 @@ class User_table(Base):
 
 
 class AccessSchema(Schema):
-    id = fields.Number()
+    id = fields.Integer()
     name = fields.Str()
 
 
 class GroupSchema(Schema):
-    id = fields.Number()
+    id = fields.Integer()
     name = fields.Str()
     description = fields.Str()
-    access_id = fields.Number()
+    access_id = fields.Integer()
 
 
 class UserSchema(Schema):
-    id = fields.Number()
+    id = fields.Integer()
     name = fields.Str()
     password = fields.Str()
     active_state = fields.Bool()
